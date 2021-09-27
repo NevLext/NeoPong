@@ -48,9 +48,9 @@ class Gameplay
     {
         let h = this.drawing.canvas.height;
         
+        this.checkBallMovement();
         this.leftPlayer.checkMovement(h, this.ball);
         this.rightPlayer.checkMovement(h, this.ball);
-        this.checkBallMovement();
 
         this.drawing.draw();
         window.requestAnimationFrame(() => this.animate());
@@ -64,13 +64,14 @@ class Gameplay
 
         if(ball.x < 0)
         {
-            this.leftPlayer.points++;
+            this.rightPlayer.points++;
             this.leftGoal.lightUp();
             ball.score();
         }
         else if(ball.x > this.drawing.canvas.width)
         {
-            this.rightPlayer.points++;
+            this.leftPlayer.points++;
+            this.rightGoal.lightUp();
             ball.score();
         }
 

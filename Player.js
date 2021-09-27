@@ -78,7 +78,7 @@ class Player extends Object2D
 
         if(hitPoint)
         {
-            let center = this.y + this.width/2;
+            let center = this.y + this.width / 2;
             let a = (hitPoint - center) / 50;
             ball.bounce(a);
             this.lightUp();

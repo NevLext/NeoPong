@@ -5,7 +5,8 @@ class Ball extends Object2D
         super();
         this.x = 0;
         this.y = 0;
-        this.speed = 20;
+        this.startingSpeed = 15;
+        this.speed = this.startingSpeed;
         this.a = 1;
 
         this.vect = {
@@ -69,15 +70,20 @@ class Ball extends Object2D
 
     lightUp()
     {
+        console.log("ball - light up")
         let tmpColor = this.color;
         this.color = "#7dffff";
 
         let tmpBlur = this.blur;
         this.blur = 15;
+        
 
         setTimeout(() => {
             this.color = tmpColor;
             this.blur = tmpBlur;
+
+            console.log("ball - light up END")
+
         }, 50);
     }
 
@@ -99,7 +105,7 @@ class Ball extends Object2D
 
             if(countdown == 1)
             {
-                this.speed = 20;
+                this.speed = this.startingSpeed;
                 clearInterval(interval);
             }
         }, 1000);

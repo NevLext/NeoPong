@@ -1,0 +1,7 @@
+BUGS    
+ball stucking between player and a wall
+ball stucking in a wall
+ball stays lit up after 
+
+SOLVED
+ball starting speed should be the same every time
