@@ -5,7 +5,7 @@ class Ball extends Object2D
         super();
         this.x = 0;
         this.y = 0;
-        this.startingSpeed = 15;
+        this.startingSpeed = 15; //ball speed cannot be lower than a player speed
         this.speed = this.startingSpeed;
         this.a = 1;
 
@@ -67,27 +67,49 @@ class Ball extends Object2D
         this.vect.x = -this.vect.x;
     }
 
+    async lightUp()
+    {
+        let tmpColor = this.color;
+        this.color = "#7dffff";
+
+        let tmpBlur = this.blur;
+        this.blur = 15;
+        
+        await this.waitFor(200)
+        this.color = tmpColor;
+        this.blur = tmpBlur;
+    }
+
     stop()
     {
         this.speed = 0;
     }
 
-    score()
+    async score()
     {
         this.x = this.arenaCenter.x;
         this.y = this.arenaCenter.y;
         this.stop();
 
-        let countdown = 3;
+        let r = this.radius;
+        this.radius = 10;
 
-        let interval = setInterval(() => {
-            countdown--;
+        for(let i = 10; i < r; i++)
+        {
+            await this.waitFor(30);
+            this.radius+=1;
+        }
 
-            if(countdown == 1)
-            {
-                this.speed = this.startingSpeed;
-                clearInterval(interval);
-            }
-        }, 1000);
+        await this.waitFor(200);
+        await this.lightUp();
+        await this.waitFor(200);
+        this.speed = this.startingSpeed;
+    }
+
+    waitFor(ms)
+    {
+        return new Promise(resolve => {
+            setTimeout(() => resolve(), ms);
+        });        
     }
 }

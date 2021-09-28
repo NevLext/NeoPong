@@ -6,6 +6,9 @@ class Gameplay
         this.margin = 50;
 
         this.drawing = new Drawing();
+        this.ui = new UserInterface();
+
+        //objects 2d
         this.centerLine = new CenterLine();
         this.topWall = new Wall(false);
         this.bottomWall = new Wall(true);
@@ -14,14 +17,16 @@ class Gameplay
         this.ball = new Ball();
         this.leftPlayer = new Player();
         this.rightPlayer = new Player();
-
-        window.addEventListener("resize", () => this.handleResize());
-        document.addEventListener("keydown", (e) => this.handleKeyDown(e));
-        document.addEventListener("keyup", (e) => this.handleKeyUp(e));
+        this.leftScore = new Score("cyan", 50, 10, 4);
+        this.rightScore = new Score("cyan", 50, 10, 4);
     }
 
     init()
     {
+        window.addEventListener("resize", () => this.handleResize());
+        document.addEventListener("keydown", (e) => this.handleKeyDown(e));
+        document.addEventListener("keyup", (e) => this.handleKeyUp(e));
+
         this.objects = [
             this.centerLine,
             this.topWall,
@@ -30,7 +35,9 @@ class Gameplay
             this.rightGoal,
             this.ball,
             this.leftPlayer,
-            this.rightPlayer
+            this.rightPlayer,
+            this.leftScore,
+            this.rightScore,
         ];
         
         this.drawing.init(this.objects, "#000");
@@ -41,6 +48,7 @@ class Gameplay
     start()
     {
         this.isRunning = true;
+        this.ui.toggleStartText();
         window.requestAnimationFrame(() => this.animate());
     }
 
@@ -65,12 +73,14 @@ class Gameplay
         if(ball.x < 0)
         {
             this.rightPlayer.points++;
+            this.rightScore.change(this.rightPlayer.points);
             this.leftGoal.lightUp();
             ball.score();
         }
         else if(ball.x > this.drawing.canvas.width)
         {
             this.leftPlayer.points++;
+            this.leftScore.change(this.leftPlayer.points)
             this.rightGoal.lightUp();
             ball.score();
         }
@@ -90,7 +100,6 @@ class Gameplay
     }
 
 
-    //event handling 
     handleResize()
     {
         this.drawing.resize();
@@ -100,7 +109,6 @@ class Gameplay
     
     handleKeyDown(e)
     {
-        // console.log(e.keyCode)
         switch(e.keyCode)
         {
             case 32: //Space
@@ -149,7 +157,6 @@ class Gameplay
         }
     }
 
-    //general
     getCenter()
     {
         return {
@@ -182,7 +189,9 @@ class Gameplay
         this.rightGoal.secondGoalPosition = w;
 
         this.ball.arenaCenter = this.getCenter();
-        this.rightPlayer.x = this.getSecondPlayerX();
+
+        this.leftScore.init();
+        this.rightScore.init();
 
         this.setStartingPositions();
     }
@@ -205,6 +214,16 @@ class Gameplay
             this.getSecondPlayerX(),
             this.getCenter().y - this.rightPlayer.width / 2
         );
-    }
 
+        let scoreMargin = 30;
+
+        this.leftScore.setPosition(
+            this.getCenter().x - this.leftScore.width - scoreMargin, 
+            scoreMargin
+        );
+        this.rightScore.setPosition(
+            this.getCenter().x + scoreMargin, 
+            scoreMargin
+        );
+    }
 }
