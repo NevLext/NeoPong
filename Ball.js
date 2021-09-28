@@ -65,26 +65,6 @@ class Ball extends Object2D
     {
         this.vect.y = a;
         this.vect.x = -this.vect.x;
-        this.lightUp();
-    }
-
-    lightUp()
-    {
-        console.log("ball - light up")
-        let tmpColor = this.color;
-        this.color = "#7dffff";
-
-        let tmpBlur = this.blur;
-        this.blur = 15;
-        
-
-        setTimeout(() => {
-            this.color = tmpColor;
-            this.blur = tmpBlur;
-
-            console.log("ball - light up END")
-
-        }, 50);
     }
 
     stop()

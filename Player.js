@@ -5,7 +5,7 @@ class Player extends Object2D
         super();
         this.x = 0;
         this.y = 0;
-        this.speed = 15;
+        this.speed = 15; //player speed cannot be higher than ball speed
         this.color = "#0ff";
         this.lightColor = "blue";
         this.width = 150;

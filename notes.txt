@@ -1,7 +1,8 @@
 BUGS    
+ball stucking between front of player, wall and back of player  
 ball stucking between player and a wall
-ball stucking in a wall
-ball stays lit up after 
 
 SOLVED
 ball starting speed should be the same every time
+ball stays lit up when point is striked
+ball stucking in a wall

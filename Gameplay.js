@@ -75,13 +75,15 @@ class Gameplay
             ball.score();
         }
 
-        if(ball.y - ball.radius <= 0)
+        if(ball.y - ball.radius < 0)
         {
+            ball.y = ball.radius;
             ball.vect.y = -ball.vect.y;
             this.topWall.lightUp();
         } 
-        else if(ball.y + ball.radius >= this.drawing.canvas.height)
+        else if(ball.y + ball.radius > this.drawing.canvas.height)
         {
+            ball.y = this.drawing.canvas.height - ball.radius;
             ball.vect.y = -ball.vect.y;
             this.bottomWall.lightUp();
         }
