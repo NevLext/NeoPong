@@ -12,8 +12,8 @@ class Goal extends Object2D
 
     draw()
     {
-        let x = this.secondGoalPosition/2;
-        let y = this.height/2;
+        let x = this.secondGoalPosition*0.5;
+        let y = this.height*0.5;
 
         if(this.isLeft)
         {

@@ -27,6 +27,6 @@ class CenterLine extends Object2D
     drawSingle(y)
     {
         this.ctx.fillStyle = this.color;
-        this.ctx.fillRect(this.x - this.thickness/2, y, this.thickness, this.length);
+        this.ctx.fillRect(this.x - this.thickness*0.5, y, this.thickness, this.length);
     }
 }
