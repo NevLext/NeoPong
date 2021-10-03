@@ -7,7 +7,6 @@ class Ball extends Object2D
         this.y = 0;
         this.startingSpeed = 15; //ball speed cannot be lower than a player speed
         this.speed = this.startingSpeed;
-        this.a = 1;
 
         this.vect = {
             x: -1,
