@@ -3,6 +3,7 @@ class Gameplay
     constructor()
     {
         this.isRunning = false;
+        this.isSingleplayer = true;
         this.margin = 50;
 
         this.drawing = new Drawing();
@@ -24,8 +25,8 @@ class Gameplay
     init()
     {
         window.addEventListener("resize", () => this.handleResize());
-        document.addEventListener("keydown", (e) => this.handleKeyDown(e));
-        document.addEventListener("keyup", (e) => this.handleKeyUp(e));
+        document.addEventListener("keydown", (e) => this.handleKeyDown1(e));
+        document.addEventListener("keyup", (e) => this.handleKeyUp1(e));
 
         this.objects = [
             this.centerLine,
@@ -48,6 +49,18 @@ class Gameplay
     start()
     {
         this.isRunning = true;
+
+        if(this.isSingleplayer)
+        {
+            console.log("single");
+            this.rightPlayer.isComputer = true;
+        }
+        else
+        {
+            document.addEventListener("keydown", (e) => this.handleKeyDown2(e));
+            document.addEventListener("keyup", (e) => this.handleKeyUp2(e));
+        }
+
         this.ui.toggleStartText();
         window.requestAnimationFrame(() => this.animate());
     }
@@ -70,6 +83,7 @@ class Gameplay
         ball.x += ball.vect.x * ball.speed;
         ball.y += ball.vect.y * ball.speed;
 
+        //check for score
         if(ball.x < 0)
         {
             this.rightPlayer.points++;
@@ -85,6 +99,7 @@ class Gameplay
             ball.score();
         }
 
+        //check for wall collision
         if(ball.y - ball.radius < 0)
         {
             ball.y = ball.radius;
@@ -99,7 +114,6 @@ class Gameplay
         }
     }
 
-
     handleResize()
     {
         this.drawing.resize();
@@ -107,7 +121,7 @@ class Gameplay
         this.drawing.draw();
     }
     
-    handleKeyDown(e)
+    handleKeyDown1(e)
     {
         switch(e.keyCode)
         {
@@ -123,7 +137,13 @@ class Gameplay
             case 83: //S
                 this.leftPlayer.downPressed = true;
                 break;
+        }
+    }
 
+    handleKeyDown2(e)
+    {
+        switch(e.keyCode)
+        {
             case 38: //arrow up
                 this.rightPlayer.upPressed = true;
                 break;
@@ -135,7 +155,8 @@ class Gameplay
         }
     }
 
-    handleKeyUp(e)
+
+    handleKeyUp1(e)
     {
         switch(e.keyCode)
         {
@@ -147,6 +168,20 @@ class Gameplay
                 this.leftPlayer.downPressed = false;
                 break;
 
+            case 38: //arrow up
+                this.rightPlayer.upPressed = false;
+                break;
+
+            case 40: //arrow down
+                this.rightPlayer.downPressed = false;
+                break;
+        }
+    }
+
+    handleKeyUp2(e)
+    {
+        switch(e.keyCode)
+        {
             case 38: //arrow up
                 this.rightPlayer.upPressed = false;
                 break;
@@ -208,11 +243,11 @@ class Gameplay
         );
         this.leftPlayer.setPosition(
             this.margin,
-            this.getCenter().y - this.leftPlayer.width / 2
+            this.getCenter().y - this.leftPlayer.width * 0.5
         );
         this.rightPlayer.setPosition(
             this.getSecondPlayerX(),
-            this.getCenter().y - this.rightPlayer.width / 2
+            this.getCenter().y - this.rightPlayer.width * 0.5
         );
 
         let scoreMargin = 30;
