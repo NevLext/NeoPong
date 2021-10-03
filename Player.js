@@ -14,6 +14,9 @@ class Player extends Object2D
         this.blur = 10;
 
         this.points = 0;
+        this.downPressed = false;
+        this.upPressed = false;
+        this.isComputer = false;
     }
 
     draw()
@@ -63,6 +66,9 @@ class Player extends Object2D
 
     checkMovement(canvasHeight, ball)
     {
+        if(this.isComputer)
+            this.control(ball);
+
         if(this.downPressed)
         {
             if(this.y <= canvasHeight - this.width - this.speed)
@@ -78,10 +84,47 @@ class Player extends Object2D
 
         if(hitPoint)
         {
-            let center = this.y + this.width / 2;
-            let a = (hitPoint - center) / 50;
+            let center = this.y + this.width * 0.5;
+            let a = (hitPoint - center) * 0.02;
             ball.bounce(a);
             this.lightUp();
+        }
+    }
+
+    control2(ball)
+    {
+        let playerCenterPosition = this.y + this.width*0.5;
+
+        if(ball.speed > 0)
+        {
+            if(ball.y < playerCenterPosition - this.speed*2)
+            {
+                this.upPressed = true;
+                this.downPressed = false;
+            }
+            else if (ball.y > playerCenterPosition + this.speed*2)
+            {
+    
+                this.upPressed = false;
+                this.downPressed = true;
+            }
+        }
+    }
+
+    control(ball)
+    {
+        let playerCenterPosition = this.y + this.width*0.5;
+
+        if(ball.speed > 0)
+        {
+            if(ball.y < playerCenterPosition)
+            {
+                this.y -= 15;
+            }
+            else if (ball.y > playerCenterPosition)
+            {
+                this.y += 15;
+            }
         }
     }
 
