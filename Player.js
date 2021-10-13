@@ -68,17 +68,21 @@ class Player extends Object2D
     {
         if(this.isComputer)
             this.control(ball);
+        else
+        {
+            if(this.downPressed)
+            {
+                if(this.y <= canvasHeight - this.width - this.speed)
+                    this.y += this.speed;
+            }
+            else if(this.upPressed)
+            {
+                if(this.y > this.speed)
+                    this.y -= this.speed;
+            }
+        }
 
-        if(this.downPressed)
-        {
-            if(this.y <= canvasHeight - this.width - this.speed)
-                this.y += this.speed;
-        }
-        else if(this.upPressed)
-        {
-            if(this.y > this.speed)
-                this.y -= this.speed;
-        }
+       
 
         let hitPoint = this.getHitPoint(ball.x, ball.y, ball.radius);
 
@@ -114,16 +118,21 @@ class Player extends Object2D
     control(ball)
     {
         let playerCenterPosition = this.y + this.width*0.5;
+        // let d = Math.sqrt((this.x - ball.x)*(this.x - ball.x) + (this.y - ball.y)*(this.y - ball.y) )
+        // let speed = Math.random() * 20;
+        let d2 = Math.abs(playerCenterPosition - ball.y) 
+        let speed = d2 * (0.23 - Math.random() * 0.2);
+        let m = 0;
 
         if(ball.speed > 0)
         {
-            if(ball.y < playerCenterPosition)
+            if(ball.y < playerCenterPosition && Math.abs(ball.y - this.y) > m)
             {
-                this.y -= 15;
+                this.y -= speed;
             }
-            else if (ball.y > playerCenterPosition)
+            else if (ball.y > playerCenterPosition && Math.abs(ball.y - this.y) > m)
             {
-                this.y += 15;
+                this.y += speed;
             }
         }
     }
